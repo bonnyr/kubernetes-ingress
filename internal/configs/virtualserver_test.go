@@ -8223,6 +8223,37 @@ func TestAddWafConfig(t *testing.T) {
 
 			wafInput: &conf_v1.WAF{
 				Enable:   true,
+				ApPolicy: "dataguard-alarm",
+				SecurityLogs: []*conf_v1.SecurityLog{
+					{
+						Enable:    true,
+						ApLogConf: "logconf",
+						LogDest:   "syslog:server=127.0.0.1:514",
+					},
+				},
+			},
+			polKey:       "default/waf-policy",
+			polNamespace: "default",
+			apResources: &appProtectResourcesForVS{
+				Policies: map[string]string{
+					"default/dataguard-alarm": "/etc/nginx/waf/nac-policies/default-dataguard-alarm",
+				},
+				LogConfs: map[string]string{
+					"default/logconf": "/etc/nginx/waf/nac-logconfs/default-logconf",
+				},
+			},
+			wafConfig: &version2.WAF{
+				ApPolicy:            "/etc/nginx/waf/nac-policies/default-dataguard-alarm",
+				ApSecurityLogEnable: true,
+				ApLogConf:           []string{"/etc/nginx/waf/nac-logconfs/default-logconf"},
+			},
+			expected: &validationResults{isError: false},
+			msg:      "valid waf config",
+		},
+		{
+
+			wafInput: &conf_v1.WAF{
+				Enable:   true,
 				ApPolicy: "default/dataguard-alarm",
 				SecurityLog: &conf_v1.SecurityLog{
 					Enable:    true,
