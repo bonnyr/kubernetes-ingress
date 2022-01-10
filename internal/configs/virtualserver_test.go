@@ -8227,7 +8227,7 @@ func TestAddWafConfig(t *testing.T) {
 				SecurityLogs: []*conf_v1.SecurityLog{
 					{
 						Enable:    true,
-						ApLogConf: "logconf",
+						ApLogCogitnf: "logconf",
 						LogDest:   "syslog:server=127.0.0.1:514",
 					},
 				},
